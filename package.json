@@ -1,0 +1,19 @@
+{
+  "name": "descendants",
+  "version": "0.0.1",
+  "description": "Collect DOM nodes matching filters, selectors and depth from reference node.",
+  "main": "descendants.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lohfu/descendants.git"
+  },
+  "author": "Linus Miller <lohfu@lohfu.io> (https://lohfu.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lohfu/descendants/issues"
+  },
+  "homepage": "https://github.com/lohfu/descendants#readme"
+}
