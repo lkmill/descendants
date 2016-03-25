@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/lohfu/descendants/issues"
   },
-  "homepage": "https://github.com/lohfu/descendants#readme"
+  "homepage": "https://github.com/lohfu/descendants#readme",
+  "dependencies": {
+    "lodash": "^4.6.1"
+  }
 }

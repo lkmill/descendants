@@ -27,6 +27,8 @@
  * @return {Node[]}	An array containing all matched descendants
  */
 
+var with = require('lodash/without');
+
 module.exports = function descendants(element, opts) {
 	opts = opts || {};
 
@@ -121,7 +123,7 @@ module.exports = function descendants(element, opts) {
 			// we are traversing more than one level, and only want the deepest nodes
 			// to be returned so remove all ancestor nodes to `node` from `nodes`
 			// TODO remove lodash and jQuery use
-			nodes = _.without.apply(null, [ nodes ].concat($(node).parentsUntil(element, opts.selector).toArray()));
+			nodes = without.apply(null, [ nodes ].concat($(node).parentsUntil(element, opts.selector).toArray()));
 		}
 		nodes.push(node);
 	}
