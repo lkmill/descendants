@@ -1,6 +1,6 @@
 {
   "name": "descendants",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Collect DOM nodes matching filters, selectors and depth from reference node.",
   "main": "descendants.js",
   "scripts": {
