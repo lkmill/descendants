@@ -27,7 +27,7 @@
  * @return {Node[]}	An array containing all matched descendants
  */
 
-var with = require('lodash/without');
+var without = require('lodash/without');
 
 module.exports = function descendants(element, opts) {
 	opts = opts || {};
