@@ -27,13 +27,14 @@
  * @return {Node[]} An array containing all matched descendants
  */
 
-var without = require('lodash/without');
+const without = require('lodash/without');
 
 module.exports = function descendants(element, opts) {
   opts = opts || {};
 
-  var filters = [],
-    nodeType = opts.selector ? 1 : opts.nodeType,
+  const nodeType = opts.selector ? 1 : opts.nodeType;
+
+  let filters = [],
     whatToShow;
 
   switch (nodeType) {
@@ -56,15 +57,15 @@ module.exports = function descendants(element, opts) {
     // TODO should probably be a more effecient way of doing this
     // add default filter for ensuring we only traverse
     // the correct number of levels
-    filters.push(function(node) {
+    filters.push(function (node) {
       // count number of steps it takes to
       // go up the DOM to reach `element`
-      for(var i = 0; i < opts.levels; i++) {
+      for (let i = 0; i < opts.levels; i++) {
         node = node.parentNode;
-        if(node === element)
+        if (node === element)
           return NodeFilter.FILTER_ACCEPT;
       }
-      
+
       // return false if `levels` is set and we have
       // made it through entire loop
       return NodeFilter.FILTER_REJECT;
@@ -78,32 +79,32 @@ module.exports = function descendants(element, opts) {
 
   if (opts.selector) {
     // add selector filter
-    filters.push(function(node) {
+    filters.push(function (node) {
       return $(node).is(opts.selector);
     });
   }
 
-  var filter = null;
+  let filter = null;
 
   if (filters.length > 0) {
-    filter = function(node) {
+    filter = function (node) {
       // since we will always return the first non-acceptable
       // filter (FILTER_REJECT or FILTER_SKIP), we need
       // must ensure filter functions that might REJECT a node
       // needs to be placed before any filters that might only SKIP...
-      return filters.reduce(function(result, fnc) {
+      return filters.reduce(function (result, fnc) {
         if (result !== NodeFilter.FILTER_ACCEPT)
           // we have already gotten a failing filter, skip any more processing
           // and return previous result!
           return result;
 
         // fetch result of next filter
-        var newResult = fnc(node);
+        const newResult = fnc(node);
 
         if (newResult instanceof Boolean)
           // filter result is a boolean, translate to ACCEPT or SKIP filter
           return newResult ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
-        
+
         // we now assume the result is a NodeFilter. return it.
         return newResult;
       }, NodeFilter.FILTER_ACCEPT);
@@ -114,11 +115,12 @@ module.exports = function descendants(element, opts) {
     filter.acceptNode = filter;
   }
 
-  var ni = document.createNodeIterator(element, whatToShow, filter, false),
-    nodes = [],
+  const ni = document.createNodeIterator(element, whatToShow, filter, false);
+
+  let nodes = [],
     node;
 
-  while((node = ni.nextNode())) {
+  while ((node = ni.nextNode())) {
     if ((!opts.levels || opts.levels > 1) && opts.onlyDeepest) {
       // we are traversing more than one level, and only want the deepest nodes
       // to be returned so remove all ancestor nodes to `node` from `nodes`
