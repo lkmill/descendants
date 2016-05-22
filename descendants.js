@@ -27,7 +27,9 @@
  * @return {Node[]} An array containing all matched descendants
  */
 
-const without = require('lodash/without');
+const without = require('lodash/without'),
+  ancestors = require('dollr/ancestors'),
+  is = require('dollr/is');
 
 module.exports = function descendants(element, opts) {
   opts = opts || {};
@@ -80,7 +82,7 @@ module.exports = function descendants(element, opts) {
   if (opts.selector) {
     // add selector filter
     filters.push(function (node) {
-      return $(node).is(opts.selector);
+      return is(node, opts.selector);
     });
   }
 
@@ -125,7 +127,7 @@ module.exports = function descendants(element, opts) {
       // we are traversing more than one level, and only want the deepest nodes
       // to be returned so remove all ancestor nodes to `node` from `nodes`
       // TODO remove lodash and jQuery use
-      nodes = without.apply(null, [ nodes ].concat($(node).parentsUntil(element, opts.selector).toArray()));
+      nodes = without.apply(null, [ nodes ].concat(ancestors(node, opts.selector, element)));
     }
     nodes.push(node);
   }
