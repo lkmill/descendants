@@ -9,8 +9,8 @@
     "build": "npm run build:cjs && npm run build:esm && npm run build:umd && npm run build:umd:min",
     "build:cjs": "BABEL_ENV=cjs babel src --out-dir lib",
     "build:esm": "BABEL_ENV=esm babel src --keep-file-extension --out-dir lib",
-    "build:umd": "mkdir -p dist && BABEL_ENV=umd rollup -c -o dist/domp-find.js",
-    "build:umd:min": "mkdir -p dist && BABEL_ENV=umd rollup -c | uglifyjs -c -m > dist/domp-find.min.js",
+    "build:umd": "mkdir -p dist && BABEL_ENV=umd rollup -c -o dist/find.js",
+    "build:umd:min": "mkdir -p dist && BABEL_ENV=umd rollup -c | uglifyjs -c -m > dist/find.min.js",
     "prepublish": "npm run clean && npm run lint && npm run build",
     "preversion": "npm run lint",
     "test": "BABEL_ENV=cjs jest"
