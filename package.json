@@ -4,6 +4,7 @@
   "description": "Collect DOM nodes matching filters, selectors and depth from reference node.",
   "main": "src/index.js",
   "scripts": {
+    "lint": "eslint --ext .js --ext .mjs src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,5 +19,13 @@
   "homepage": "https://github.com/dom-packages/find#readme",
   "dependencies": {
     "lodash": "^4.6.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.1.0"
   }
 }
