@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * Method to
  *
@@ -27,9 +25,9 @@
  * @return {Node[]} An array containing all matched descendants
  */
 
-const without = require('lodash/without')
-const ancestors = require('dollr/ancestors')
-const is = require('dollr/is')
+import difference from '@lowline/difference'
+import ancestors from '@domp/ancestors'
+import is from '@domp/is'
 
 module.exports = function find (element, opts) {
   opts = opts || {}
@@ -127,7 +125,7 @@ module.exports = function find (element, opts) {
       // we are traversing more than one level, and only want the deepest nodes
       // to be returned so remove all ancestor nodes to `node` from `nodes`
       // TODO remove lodash and jQuery use
-      nodes = without.apply(null, [ nodes ].concat(ancestors(node, opts.selector, element)))
+      nodes = difference(nodes, ancestors(node, opts.selector, element))
     }
     nodes.push(node)
   }
