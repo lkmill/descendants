@@ -12,16 +12,13 @@
  * @param {Object} [opts] -
  * @param {number} [opts.levels] - How many levels of descendants should be
  * collected. If `levels` is not set, all levels will be traversed
- * @param {number} [opts.nodeType] - How many levels of descendants should be
- * collected. If `levels` is not set, all levels will be traversed
- * @param {string} [opts.selector] - How many levels of descendants should be
- * collected. If `levels` is not set, all levels will be traversed
- * @param {Function|Function[]} [opts.filter] - Boolean to determine whether
- * only deepest level of nodes should be collected, ie reject all nodes
- * ancestor nodes.
- * @param {boolean} [opts.onlyDeepest] - Boolean to determine whether only
- * deepest level of nodes should be collected, ie reject all nodes ancestor
- * nodes.
+ * @param {number} [opts.nodeType] - Type of node, ie 1 for HTML elements, 3 for text nodes
+ * @param {string} [opts.selector] - A CSS selector to match HTML elements against
+ * @param {Function|Function[]} [opts.filter] - A custom function to filter nodes
+ * @param {boolean} [opts.onlyDeepest] - Boolean to determine whether
+ * only deepest level of nodes should be collected, ie only return nodes that have
+ * no descendants that pass all filters.
+ *
  * @return {Node[]} An array containing all matched descendants
  */
 
@@ -29,7 +26,7 @@ import difference from '@lowline/difference'
 import ancestors from '@domp/ancestors'
 import is from '@domp/is'
 
-module.exports = function find (element, opts) {
+export default function find (element, opts) {
   opts = opts || {}
 
   const nodeType = opts.selector ? 1 : opts.nodeType
@@ -54,46 +51,60 @@ module.exports = function find (element, opts) {
   }
 
   if (opts.levels) {
-    // TODO should probably be a more effecient way of doing this
-    // add default filter for ensuring we only traverse
-    // the correct number of levels
-    filters.push(function (node) {
+    /*
+     * TODO should probably be a more effecient way of doing this
+     * add default filter for ensuring we only traverse
+     * the correct number of levels
+     */
+    filters.push((node) => {
       // count number of steps it takes to
       // go up the DOM to reach `element`
       for (let i = 0; i < opts.levels; i++) {
         node = node.parentNode
-        if (node === element) { return NodeFilter.FILTER_ACCEPT }
+        if (node === element) {
+          return NodeFilter.FILTER_ACCEPT
+        }
       }
 
-      // return false if `levels` is set and we have
-      // made it through entire loop
+      /*
+       * return false if `levels` is set and we have made it
+       * through entire loop
+       */
       return NodeFilter.FILTER_REJECT
     })
   }
 
-  // NOTE filter order is of importance, due to difference in REJECT and SKIP
-  // NodeFilters...
-  if (opts.filter) { filters = filters.concat(opts.filter) }
+  /*
+   * NOTE filter order is of importance, due to difference in REJECT and SKIP
+   * NodeFilters...
+   */
+  if (opts.filter) {
+    filters = filters.concat(opts.filter)
+  }
 
   if (opts.selector) {
     // add selector filter
-    filters.push(function (node) {
-      return is(node, opts.selector)
-    })
+    filters.push((node) => is(node, opts.selector))
   }
 
   let filter = null
 
   if (filters.length > 0) {
+    // IE fix... IE will try to call filter property directly, while good
+    // browsers (correctly) tries to call filter.acceptNode, see line 128
     filter = function (node) {
-      // since we will always return the first non-acceptable
-      // filter (FILTER_REJECT or FILTER_SKIP), we need
-      // must ensure filter functions that might REJECT a node
-      // needs to be placed before any filters that might only SKIP...
-      return filters.reduce(function (result, fnc) {
+      /*
+       * since we will always return the first non-acceptable
+       * filter (FILTER_REJECT or FILTER_SKIP), we need
+       * must ensure filter functions that might REJECT a node
+       * needs to be placed before any filters that might only SKIP...
+       */
+      return filters.reduce((result, fnc) => {
         if (result !== NodeFilter.FILTER_ACCEPT) {
-          // we have already gotten a failing filter, skip any more processing
-          // and return previous result!
+          /*
+           * we have already gotten a failing filter, skip any more processing
+           * and return previous result!
+           */
           return result
         }
 
@@ -110,24 +121,35 @@ module.exports = function find (element, opts) {
       }, NodeFilter.FILTER_ACCEPT)
     }
 
-    // IE fix... IE will try to call filter property directly,
-    // while good browsers (correctly) tries to call filter.acceptNode
+    // IE fix. see comment on lines 96 and 97
     filter.acceptNode = filter
   }
 
   const ni = document.createNodeIterator(element, whatToShow, filter, false)
 
-  let nodes = []
-  let node
+  // we do not want to collect the root node
+  // ni.nextNode()
 
-  while ((node = ni.nextNode())) {
+  let nodes = []
+  let node = ni.nextNode()
+
+  if (node === element) {
+    node = ni.nextNode()
+  }
+
+  while (node) {
     if ((!opts.levels || opts.levels > 1) && opts.onlyDeepest) {
-      // we are traversing more than one level, and only want the deepest nodes
-      // to be returned so remove all ancestor nodes to `node` from `nodes`
-      // TODO remove lodash and jQuery use
+      /*
+       * we are traversing more than one level, and only want the deepest nodes
+       * to be returned so remove all ancestor nodes to `node` from `nodes`
+       * TODO remove lodash and jQuery use
+       */
       nodes = difference(nodes, ancestors(node, opts.selector, element))
     }
+
     nodes.push(node)
+
+    node = ni.nextNode()
   }
 
   return nodes
