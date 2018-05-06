@@ -3,7 +3,7 @@
 /**
  * Method to
  *
- * @module descendants
+ * @module @domp/find
  */
 
 /**
@@ -31,7 +31,7 @@ const without = require('lodash/without'),
   ancestors = require('dollr/ancestors'),
   is = require('dollr/is');
 
-module.exports = function descendants(element, opts) {
+module.exports = function find(element, opts) {
   opts = opts || {};
 
   const nodeType = opts.selector ? 1 : opts.nodeType;
