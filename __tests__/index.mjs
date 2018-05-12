@@ -1,4 +1,4 @@
-import find from '../src/index'
+import descendants from '../src/index'
 
 const strs = [
   'zero',
@@ -42,56 +42,56 @@ const a3 = document.getElementById('a-3')
 const a4 = document.getElementById('a-4')
 
 test('basic check', () => {
-  let result = find(a1, {
+  let result = descendants(a1, {
     selector: '#a-1',
   })
 
   expect(result).toEqual([])
 
-  result = find(a1, {
+  result = descendants(a1, {
     nodeType: 1,
   })
 
   expect(result).toEqual([ a2, a3, a4 ])
 
-  result = find(a1, {
+  result = descendants(a1, {
     nodeType: 3,
   }).map((node) => node.textContent)
 
   expect(result).toEqual(strs.slice(1))
 
-  result = find(a1, {
+  result = descendants(a1, {
     nodeType: 1,
     levels: 1,
   })
 
   expect(result).toEqual([ a2 ])
 
-  result = find(a1, {
+  result = descendants(a1, {
     selector: '.a-3',
   })
 
   expect(result).toEqual([ a3 ])
 
-  result = find(a1, {
+  result = descendants(a1, {
     selector: '.a',
   })
 
   expect(result).toEqual([ a2, a3, a4 ])
 
-  result = find(a1, {
+  result = descendants(a1, {
     selector: '#a-2',
   })
 
   expect(result).toEqual([ a2 ])
 
-  result = find(a1, {
+  result = descendants(a1, {
     filter: () => false,
   })
 
   expect(result.length).toBe(0)
 
-  result = find(a1, {
+  result = descendants(a1, {
     filter: () => true,
   })
 

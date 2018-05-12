@@ -1,5 +1,5 @@
 {
-  "name": "@domp/find",
+  "name": "descendants",
   "version": "0.1.1",
   "description": "Like @domp/select but with more filters and ability to query all node types",
   "main": "lib/index",
@@ -9,15 +9,15 @@
     "build": "npm run build:cjs && npm run build:esm && npm run build:umd && npm run build:umd:min",
     "build:cjs": "BABEL_ENV=cjs babel src --out-dir lib",
     "build:esm": "BABEL_ENV=esm babel src --keep-file-extension --out-dir lib",
-    "build:umd": "mkdir -p dist && BABEL_ENV=umd rollup -c -o dist/find.js",
-    "build:umd:min": "mkdir -p dist && BABEL_ENV=umd rollup -c | uglifyjs -c -m > dist/find.min.js",
+    "build:umd": "mkdir -p dist && BABEL_ENV=umd rollup -c -o dist/descendants.js",
+    "build:umd:min": "mkdir -p dist && BABEL_ENV=umd rollup -c | uglifyjs -c -m > dist/descendants.min.js",
     "prepublish": "npm run clean && npm run lint && npm run build",
     "preversion": "npm run lint",
     "test": "BABEL_ENV=cjs jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dom-packages/find.git"
+    "url": "git+https://github.com/lohfu/descendants.git"
   },
   "keywords": [
     "DOM",
@@ -26,9 +26,9 @@
   "author": "Linus Miller <lohfu@lohfu.io> (https://lohfu.io/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dom-packages/find/issues"
+    "url": "https://github.com/lohfu/descendants/issues"
   },
-  "homepage": "https://github.com/dom-packages/find#readme",
+  "homepage": "https://github.com/lohfu/descendants#readme",
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.46",
     "@babel/core": "^7.0.0-beta.46",
