@@ -1,6 +1,6 @@
 {
   "name": "descendants",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Like @domp/select but with more filters and ability to query all node types",
   "main": "lib/index",
   "scripts": {
