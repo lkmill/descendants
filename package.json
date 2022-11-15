@@ -1,17 +1,24 @@
 {
   "name": "descendants",
   "version": "0.1.2",
-  "description": "Like @domp/select but with more filters and ability to query all node types",
-  "main": "lib/index",
+  "description": "Use NodeIterator to filter descendants",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "unpkg": "./dist/descendants.min.js",
   "scripts": {
     "build": "npm run build:cjs && npm run build:esm && npm run build:umd && npm run build:umd:min",
-    "build:cjs": "BABEL_ENV=cjs babel src --out-dir lib",
-    "build:esm": "BABEL_ENV=esm babel src --keep-file-extension --out-dir lib",
+    "build:cjs": "BABEL_ENV=cjs babel src --out-file-extension .cjs --out-dir dist",
+    "build:esm": "BABEL_ENV=esm babel src --out-dir dist",
     "build:umd": "mkdir -p dist && BABEL_ENV=umd rollup -c -o dist/descendants.js",
     "build:umd:min": "mkdir -p dist && BABEL_ENV=umd rollup -c | uglifyjs -c -m > dist/descendants.min.js",
-    "clean": "rimraf dist lib",
+    "clean": "rimraf dist",
     "format": "prettier --write .",
-    "lint": "eslint --ext .js --ext .mjs .",
+    "lint": "eslint --ext .cjs,.js,.mjs .",
     "prepublishOnly": "npm run clean && npm run lint && npm run build",
     "preversion": "npm run lint",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest"

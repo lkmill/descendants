@@ -1,4 +1,4 @@
-import descendants from '../src/index.mjs'
+import descendants from '../src/index.js'
 
 const strs = ['zero', 'one', 'two', 'three', 'four']
 

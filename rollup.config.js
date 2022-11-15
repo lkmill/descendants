@@ -14,7 +14,7 @@ export default {
       browser: true,
     }),
   ],
-  input: 'src/index.mjs',
+  input: 'src/index.js',
   output: {
     format: 'umd',
     name: 'descendants',
