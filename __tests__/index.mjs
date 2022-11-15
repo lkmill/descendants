@@ -1,12 +1,6 @@
-import descendants from '../src/index'
+import descendants from '../src/index.mjs'
 
-const strs = [
-  'zero',
-  'one',
-  'two',
-  'three',
-  'four',
-]
+const strs = ['zero', 'one', 'two', 'three', 'four']
 
 const html = `
 ${strs[0]}
@@ -52,7 +46,7 @@ test('basic check', () => {
     nodeType: 1,
   })
 
-  expect(result).toEqual([ a2, a3, a4 ])
+  expect(result).toEqual([a2, a3, a4])
 
   result = descendants(a1, {
     nodeType: 3,
@@ -65,25 +59,25 @@ test('basic check', () => {
     levels: 1,
   })
 
-  expect(result).toEqual([ a2 ])
+  expect(result).toEqual([a2])
 
   result = descendants(a1, {
     selector: '.a-3',
   })
 
-  expect(result).toEqual([ a3 ])
+  expect(result).toEqual([a3])
 
   result = descendants(a1, {
     selector: '.a',
   })
 
-  expect(result).toEqual([ a2, a3, a4 ])
+  expect(result).toEqual([a2, a3, a4])
 
   result = descendants(a1, {
     selector: '#a-2',
   })
 
-  expect(result).toEqual([ a2 ])
+  expect(result).toEqual([a2])
 
   result = descendants(a1, {
     filter: () => false,

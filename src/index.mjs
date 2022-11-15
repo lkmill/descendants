@@ -26,7 +26,7 @@ import difference from '@lowline/difference'
 import ancestors from '@domp/ancestors'
 import is from '@domp/is'
 
-export default function descendants (element, opts) {
+export default function descendants(element, opts) {
   opts = opts || {}
 
   const nodeType = opts.selector ? 1 : opts.nodeType

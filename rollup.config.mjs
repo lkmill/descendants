@@ -1,5 +1,5 @@
-import babel from 'rollup-plugin-babel'
-import nodeResolve from 'rollup-plugin-node-resolve'
+import babel from '@rollup/plugin-babel'
+import nodeResolve from '@rollup/plugin-node-resolve'
 
 export default {
   plugins: [
@@ -7,7 +7,7 @@ export default {
       exclude: 'node_modules/**/*',
     }),
     nodeResolve({
-      extensions: [ '.mjs', '.js' ],
+      extensions: ['.mjs', '.js'],
       jsnext: true,
       main: true,
       module: true,
